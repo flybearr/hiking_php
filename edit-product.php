@@ -1,13 +1,36 @@
 <?php require __DIR__ . '/connect.php' ?>
-<?php require __DIR__ . '/head.php'; ?>
 <?php
-$pagename = 'insert-product';
+$pagename = 'edit-product';
+
+
+
+$sid = isset($_GET['sid']) ? intval($_GET['sid']) : 0;
+if (empty($sid)) {
+    header('Location: list.php');
+    exit;
+}
+
+$sql = "SELECT * FROM product WHERE sid=$sid";
+$r = $pdo->query($sql)->fetch();
+if (empty($r)) {
+    header('Location: list-product.php');
+    exit;
+}
+
+//取得當初的種類名稱
+$sql = "SELECT `sid`,`product_category` 
+            FROM product_category";
+$rows = $pdo->query($sql)->fetchAll();
+
 ?>
 
-<?php
-$sql = "SELECT `sid`,`product_category` FROM  `product_category`";
-$rows = $pdo->query($sql)->fetchAll();
-?>
+
+
+
+
+
+<?php require __DIR__ . '/head.php'; ?>
+
 
 <style>
     .wrap {
@@ -32,13 +55,22 @@ $rows = $pdo->query($sql)->fetchAll();
             <div class="wrap">
 
 
-                <img id="myimg" src="" alt="" width="300">
+
+
+
+                <p>目前圖片</p>
+                <img id="myimg" src="./picture/<?= ($r['picture']) ?>" alt="" width="300">
+
                 <form name="form1" onsubmit="checkForm();return false;">
-                    <p>請選擇圖檔</p>
+
+
+                    <input type="hidden" name="sid" value="<?= $r['sid'] ?>">
+
+
                     <input type="file" name="single" accept="image/png,image/jpeg" id="btn">
                     <div class="mb-3">
                         <label for="product_name" class="form-label">品名</label>
-                        <input type="text" class="form-control" id="product_name" name="product_name">
+                        <input type="text" class="form-control" id="product_name" name="product_name" value="<?= htmlentities($r['product_name']) ?>">
                     </div>
 
 
@@ -47,31 +79,28 @@ $rows = $pdo->query($sql)->fetchAll();
                         <label for="product_category_sid" class="form-label">種類</label>
                         <br>
                         <select name="product_category_sid" id="product_category_sid">
-                            <option value="0">
-                                請選種類
-                            </option>
-
-                            </option>
-                            <?php foreach ($rows as $r) : ?>
-                                <option value="<?= $r['sid'] ?>">
-                                    <?= $r['product_category'] ?>
+                            <?php foreach ($rows as $x) : ?>
+                                <option value="<?= $x['sid'] ?>" <?= $x['sid'] == $r['product_category_sid'] ? 'selected' : '' ?>>
+                                    <?= $x['product_category'] ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <!-- <input type="text" class="form-control" id="product_category_sid" name="product_category_sid" value="" readonly placeholder="點選後會自動帶入"> -->
+                        <!-- <input type="text" class="form-control" id="product_category_sid" name="product_category_sid" value=" " readonly placeholder="點選後會自動帶入"> -->
                     </div>
 
                     <div class="mb-3">
                         <label for="product_price" class="form-label">價格</label>
-                        <input type="text" class="form-control" id="product_price" name="product_price">
+                        <input type="text" class="form-control" id="product_price" name="product_price" value="<?= ($r['product_price']) ?>">
                     </div>
                     <div class="mb-3">
                         <label for="product_inventory" class="form-label">庫存</label>
-                        <input type="text" class="form-control" id="product_inventory" name="product_inventory">
+                        <input type="text" class="form-control" id="product_inventory" name="product_inventory" value="<?= ($r['product_inventory']) ?>">
                     </div>
 
 
-                    <button type="submit" class="btn btn-primary">送出檔案</button>
+                    <button type="submit" class="btn btn-primary">更改檔案</button>
+
+
                 </form>
 
                 <!-- <form name="form2" style="display:none">
@@ -112,8 +141,8 @@ $rows = $pdo->query($sql)->fetchAll();
 <?php require __DIR__ . '/script.php'; ?>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    let sel = document.querySelector('#category');
-    let category_sid = document.querySelector('#product_category_sid');
+    // let sel = document.querySelector('#category');
+    // let category_sid = document.querySelector('#product_category_sid');
 
 
     // console.log(category_sid.value);
@@ -156,14 +185,15 @@ $rows = $pdo->query($sql)->fetchAll();
 
     function checkForm() {
         const fd = new FormData(document.form1);
-        fetch('insert-product-api.php', {
+        fetch('edit-product-api.php', {
             method: 'POST',
             body: fd,
         }).then(r => r.json()).then(obj => {
             if (!obj.success) {
+                console.log(obj.postData)
                 Swal.fire({
                     icon: 'error',
-                    title: '新增失敗',
+                    title: '修改失敗',
                     text: 'Something went wrong!',
                 })
 
@@ -171,7 +201,7 @@ $rows = $pdo->query($sql)->fetchAll();
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: '儲存成功',
+                    title: '修改成功',
                     showConfirmButton: false,
                     timer: 1500
                 })

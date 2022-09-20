@@ -85,22 +85,36 @@ $output = [
             <table class="table table-dark -columns">
                 <thead>
                     <tr>
+                        <th scope="col">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </th>
                         <th scope="col">編號</th>
                         <th scope="col">種類</th>
                         <th scope="col">品牌</th>
                         <th scope="col">性別</th>
-
+                        <th scope="col">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <?php foreach ($rows as $r) : ?>
                         <tr>
+                            <td>
+                                <a href="javascript: delete_it(<?= $r['sid'] ?>)">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </td>
                             <td><?= $r['sid'] ?></td>
                             <td><?= $r['product_category'] ?></td>
                             <td><?= $r['brand'] ?></td>
                             <td><?= $r['gender'] ?></td>
-
+                            <td>
+                                <a href="edit-form.php?sid=<?= $r['sid'] ?>">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </td>
                         <?php endforeach; ?>
                 </tbody>
 
@@ -116,4 +130,11 @@ $output = [
 
 
 <?php require __DIR__ . '/script.php'; ?>
+<script>
+    function delete_it(sid) {
+        if (confirm(`確定要刪除編號為${sid}的資料嗎?`)) {
+            location.href = `category_delete.php?sid=${sid}`;
+        }
+    }
+</script>
 <?php require __DIR__ . '/foot.php'; ?>

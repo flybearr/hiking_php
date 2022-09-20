@@ -65,8 +65,9 @@ if (!move_uploaded_file(
 
 // TODO: 檢查欄位資料
 
-$sql = "INSERT INTO `product`( `product_name`, `product_category_sid`, `product_price`, `product_inventory`,`picture`
-    ) VALUES (?, ?, ?, ?, ?)";
+$sql = "INSERT INTO `product`
+( `product_name`, `product_category_sid`, 
+`product_price`, `product_inventory`,`picture`    ) VALUES (?, ?, ?, ?, ?)";
 
 $stmt = $pdo->prepare($sql);
 

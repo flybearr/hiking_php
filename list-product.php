@@ -126,7 +126,7 @@ $output = [
                             <td><img src="./picture/<?= $r['picture'] ?>" alt=""></td>
 
                             <td>
-                                <a href="edit-form.php?sid=<?= $r['sid'] ?>">
+                                <a href="edit-product.php?sid=<?= $r['sid'] ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>

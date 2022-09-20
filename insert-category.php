@@ -77,18 +77,20 @@ $pic_int_id = substr($pic_last_id, 2, 4);
             if (!obj.success) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Oops...',
+                    title: '新增失敗',
                     text: 'Something went wrong!',
                 })
 
             } else {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
-                    title: 'Your work has been saved',
+                    title: '儲存成功',
                     showConfirmButton: false,
                     timer: 1500
                 })
+                setTimeout("window.location.reload()", 1500);
+
 
             }
         })
