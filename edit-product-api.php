@@ -66,7 +66,9 @@ if (!empty($_FILES['single']['name'])) {
     `product_category_sid`=?,
     `product_price`=?,
     `product_inventory`=?,
-    `picture`=?
+    `picture`=?,
+    `product_description`=?,
+    `brand_sid`=?
     where sid=?";
     $stmt = $pdo->prepare($sql);
     try {
@@ -76,6 +78,8 @@ if (!empty($_FILES['single']['name'])) {
             $_POST['product_price'],
             $_POST['product_inventory'],
             $filename,
+            $_POST['product_description'],
+            $_POST['brand_sid'],
             $_POST['sid']
         ]);
     } catch (PDOException $ex) {
@@ -86,7 +90,9 @@ if (!empty($_FILES['single']['name'])) {
     `product_name`=?,
     `product_category_sid`=?,
     `product_price`=?,
-    `product_inventory`=?
+    `product_inventory`=?,
+    `product_description`=?,
+    `brand_sid`=?
     where sid=?";
 
     $stmt = $pdo->prepare($sql);
@@ -99,6 +105,8 @@ if (!empty($_FILES['single']['name'])) {
             $_POST['product_category_sid'],
             $_POST['product_price'],
             $_POST['product_inventory'],
+            $_POST['product_description'],
+            $_POST['brand_sid'],
             $_POST['sid']
         ]);
     } catch (PDOException $ex) {

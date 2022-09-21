@@ -11,7 +11,7 @@ $output = [
     'postData' => $_POST, // 除錯用的
 ];
 
-if (empty($_POST['product_category'])) {
+if (empty($_POST['brand_name'])) {
     $output['error'] = '參數不足';
     $output['code'] = 400;
     echo json_encode($output, JSON_UNESCAPED_UNICODE);
@@ -28,8 +28,7 @@ if (empty($_POST['product_category'])) {
 
 // TODO: 檢查欄位資料
 
-$sql2 = "INSERT INTO `product_category`(`product_category`,`gender`
-    ) VALUES (?, ?)";
+$sql2 = "INSERT INTO `brand`(`brand_name`) VALUES (?)";
 
 $stmt = $pdo->prepare($sql2);
 
@@ -37,21 +36,10 @@ $stmt = $pdo->prepare($sql2);
 
 
 
-//篩選圖片最新編號
-$select_sql =
-    "SELECT  `picture` FROM `product`  ORDER BY `sid` DESC LIMIT 1;";
-$pic_lastid = $pdo->query($select_sql)->fetch(PDO::FETCH_NUM)[0];
-
-//取代雙引號
-$pic_last_id = str_replace('"', '', $pic_lastid);
-//只取數字
-$pic_int_id = substr($pic_last_id, 2, 4);
-
 
 try {
     $stmt->execute([
-        $_POST['product_category'],
-        $_POST['gender'],
+        $_POST['brand_name'],
     ]);
 } catch (PDOException $ex) {
     $output['error'] = $ex->getMessage();

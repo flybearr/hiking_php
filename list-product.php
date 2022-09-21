@@ -36,6 +36,14 @@ if ($totalrows) {
 
     //取出所有的資料
     $rows = $pdo->query($sql)->fetchAll();
+
+
+
+    $sql2 = "SELECT  *  FROM product_category ";
+    $rows2 = $pdo->query($sql2)->fetchAll();
+
+    $sql3 = "SELECT  *  FROM brand ";
+    $rows3 = $pdo->query($sql3)->fetchAll();
 }
 
 
@@ -96,7 +104,8 @@ $output = [
 
                         <th scope="col">#</th>
                         <th scope="col">品名</th>
-                        <th scope="col">種類編號</th>
+                        <th scope="col">種類</th>
+                        <th scope="col">品牌</th>
                         <th scope="col">價格</th>
                         <th scope="col">庫存</th>
                         <th scope="col">產品說明</th>
@@ -119,11 +128,24 @@ $output = [
 
                             <td><?= $r['sid'] ?></td>
                             <td><?= $r['product_name'] ?></td>
-                            <td><?= $r['product_category_sid'] ?></td>
+
+                            <?php foreach ($rows2 as $x) : ?>
+                                <?php if ($x['sid'] == $r['product_category_sid']) : ?>
+                                    <td><?= $x['product_category'] ?></td>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
+                            <?php foreach ($rows3 as $q) : ?>
+                                <?php if ($q['brand_sid'] == $r['brand_sid']) : ?>
+                                    <td><?= $q['brand_name'] ?></td>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
+
                             <td><?= $r['product_price'] ?></td>
                             <td><?= $r['product_inventory'] ?></td>
                             <td><?= $r['product_description'] ?></td>
-                            <td><img src="./picture/<?= $r['picture'] ?>" alt=""></td>
+                            <td><img src="./picture/<?= $r['picture'] ?>" alt="" style="width: 150px;"></td>
 
                             <td>
                                 <a href="edit-product.php?sid=<?= $r['sid'] ?>">
@@ -149,7 +171,7 @@ $output = [
 <script>
     function delete_it(sid) {
         if (confirm(`確定要刪除編號為${sid}的資料嗎?`)) {
-            location.href = `product_delete.php?sid=${sid}`;
+            location.href = `delete_product.php?sid=${sid}`;
         }
     }
 </script>

@@ -1,7 +1,7 @@
 <?php require __DIR__ . '/connect.php' ?>
 <?php require __DIR__ . '/head.php'; ?>
 <?php
-$pagename = 'insert-category';
+$pagename = 'insert-brand';
 ?>
 
 <style>
@@ -24,15 +24,11 @@ $pagename = 'insert-category';
             <div class="wrap">
                 <form name="form1" onsubmit="checkForm();return false;">
                     <div class="mb-3">
-                        <label for="product_category" class="form-label">種類</label>
-                        <input type="text" class="form-control" id="product_category" name="product_category">
+                        <label for="brand_name" class="form-label">品牌</label>
+                        <input type="text" class="form-control" id="brand_name" name="brand_name">
                     </div>
 
 
-                    <div class="mb-3">
-                        <label for="gender" class="form-label">性別</label>
-                        <input type="text" class="form-control" id="gender" name="gender">
-                    </div>
 
 
                     <button type="submit" class="btn btn-primary">送出檔案</button>
@@ -67,7 +63,7 @@ $pic_int_id = substr($pic_last_id, 2, 4);
 <script>
     function checkForm() {
         const fd = new FormData(document.form1);
-        fetch('insert-category-api.php', {
+        fetch('insert-brand-api.php', {
             method: 'POST',
             body: fd,
         }).then(r => r.json()).then(obj => {

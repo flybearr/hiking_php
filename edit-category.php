@@ -1,6 +1,6 @@
 <?php require __DIR__ . '/connect.php' ?>
 <?php
-$pagename = 'edit-product';
+$pagename = 'edit-category';
 
 
 
@@ -10,22 +10,14 @@ if (empty($sid)) {
     exit;
 }
 
-$sql = "SELECT * FROM product WHERE sid=$sid";
+$sql = "SELECT * FROM `product_category` WHERE sid=$sid";
 $r = $pdo->query($sql)->fetch();
 if (empty($r)) {
     header('Location: list-product.php');
     exit;
 }
 
-//取得當初的種類名稱
-$sql = "SELECT `sid`,`product_category` 
-            FROM product_category";
-$rows = $pdo->query($sql)->fetchAll();
 
-
-
-$sql2 = "SELECT * FROM `brand` ";
-$rows2 = $pdo->query($sql2)->fetchAll();
 
 ?>
 
@@ -54,86 +46,27 @@ $rows2 = $pdo->query($sql2)->fetchAll();
 <div class="container">
     <div class="row">
         <div class="col-6">
-
-
-
             <div class="wrap">
-
-
-
-
-
-                <p>目前圖片</p>
-                <img id="myimg" src="./picture/<?= ($r['picture']) ?>" alt="" width="300">
-
                 <form name="form1" onsubmit="checkForm();return false;">
-
 
                     <input type="hidden" name="sid" value="<?= $r['sid'] ?>">
 
-
-                    <input type="file" name="single" accept="image/png,image/jpeg" id="btn">
                     <div class="mb-3">
-                        <label for="product_name" class="form-label">品名</label>
-                        <input type="text" class="form-control" id="product_name" name="product_name" value="<?= htmlentities($r['product_name']) ?>">
+                        <label for="product_category" class="form-label">種類</label>
+                        <input type="text" class="form-control" id="product_category" name="product_category" value="<?= $r['product_category'] ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">性別</label>
+                        <input type="text" class="form-control" id="gender" name="gender" value="<?= $r['gender'] ?>">
                     </div>
 
 
-
-                    <div class="mb-3">
-                        <label for="product_category_sid" class="form-label">種類</label>
-                        <br>
-                        <select name="product_category_sid" id="product_category_sid">
-                            <?php foreach ($rows as $x) : ?>
-                                <option value="<?= $x['sid'] ?>" <?= $x['sid'] == $r['product_category_sid'] ? 'selected' : '' ?>>
-                                    <?= $x['product_category'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label for="brand_sid" class="form-label">品牌</label>
-                        <br>
-                        <select name="brand_sid" id="brand_sid">
-                            <?php foreach ($rows2 as $q) : ?>
-                                <option value="<?= $q['brand_sid'] ?>" <?= $q['brand_sid'] == $r['brand_sid'] ? 'selected' : '' ?>>
-                                    <?= $q['brand_name'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-
-
-                    <div class="mb-3">
-                        <label for="product_price" class="form-label">價格</label>
-                        <input type="text" class="form-control" id="product_price" name="product_price" value="<?= ($r['product_price']) ?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="product_inventory" class="form-label">庫存</label>
-                        <input type="text" class="form-control" id="product_inventory" name="product_inventory" value="<?= ($r['product_inventory']) ?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="product_description" class="form-label">商品說明</label>
-                        <input type="text" class="form-control" id="product_description" name="product_description" value="<?= ($r['product_description']) ?>">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">更改檔案</button>
+                    <button type="submit" class="btn btn-primary">送出檔案</button>
 
 
                 </form>
-
-                <!-- <form name="form2" style="display:none">
-                    <label for="">圖片</label>
-
-                </form>
-                <div>請先填寫以上欄位，再上傳圖檔</div>
-                <button onclick="document.form2.single.click()"> 選檔案上傳圖檔</button>
-                <img id="myimg" src="" alt="" width="300"> -->
             </div>
-
 
 
         </div>
@@ -195,19 +128,14 @@ $rows2 = $pdo->query($sql2)->fetchAll();
     // category_sid.value = category_name.innerText;
 
 
-    const btn = document.querySelector('#btn');
-    const pic = document.querySelector('#myimg');
-    btn.addEventListener('change', () => {
-        const photo = event.target.files[0];
-        pic.src = URL.createObjectURL(photo);
-    })
+
 
 
 
 
     function checkForm() {
         const fd = new FormData(document.form1);
-        fetch('edit-product-api.php', {
+        fetch('edit-category-api.php', {
             method: 'POST',
             body: fd,
         }).then(r => r.json()).then(obj => {
@@ -215,7 +143,7 @@ $rows2 = $pdo->query($sql2)->fetchAll();
                 console.log(obj.postData)
                 Swal.fire({
                     icon: 'error',
-                    title: '修改失敗',
+                    title: '修改失敗，沒更改到資料',
                     text: 'Something went wrong!',
                 })
 
@@ -227,7 +155,8 @@ $rows2 = $pdo->query($sql2)->fetchAll();
                     showConfirmButton: false,
                     timer: 1500
                 })
-                setTimeout("location.href = 'list-product.php';", 1500);
+                setTimeout("location.href = 'list-category.php';", 1500);
+
                 // document.form2.single.addEventListener('change', function() {
                 //     console.log(this.files);
                 //     const fd = new FormData(document.form2);

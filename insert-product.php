@@ -7,6 +7,11 @@ $pagename = 'insert-product';
 <?php
 $sql = "SELECT `sid`,`product_category` FROM  `product_category`";
 $rows = $pdo->query($sql)->fetchAll();
+
+
+$sql2 = "SELECT * FROM  `brand`";
+$rows2 = $pdo->query($sql2)->fetchAll();
+
 ?>
 
 <style>
@@ -33,9 +38,11 @@ $rows = $pdo->query($sql)->fetchAll();
 
 
                 <img id="myimg" src="" alt="" width="300">
+
                 <form name="form1" onsubmit="checkForm();return false;">
                     <p>請選擇圖檔</p>
                     <input type="file" name="single" accept="image/png,image/jpeg" id="btn">
+
                     <div class="mb-3">
                         <label for="product_name" class="form-label">品名</label>
                         <input type="text" class="form-control" id="product_name" name="product_name">
@@ -58,8 +65,28 @@ $rows = $pdo->query($sql)->fetchAll();
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <!-- <input type="text" class="form-control" id="product_category_sid" name="product_category_sid" value="" readonly placeholder="點選後會自動帶入"> -->
                     </div>
+
+
+
+                    <div class="mb-3">
+                        <label for="brand_sid" class="form-label">品牌</label>
+                        <br>
+                        <select name="brand_sid" id="brand_sid">
+                            <option value="0">
+                                請選品牌
+                            </option>
+
+                            </option>
+                            <?php foreach ($rows2 as $x) : ?>
+                                <option value="<?= $x['brand_sid'] ?>">
+                                    <?= $x['brand_name'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+
 
                     <div class="mb-3">
                         <label for="product_price" class="form-label">價格</label>
@@ -68,6 +95,10 @@ $rows = $pdo->query($sql)->fetchAll();
                     <div class="mb-3">
                         <label for="product_inventory" class="form-label">庫存</label>
                         <input type="text" class="form-control" id="product_inventory" name="product_inventory">
+                    </div>
+                    <div class="mb-3">
+                        <label for="product_description" class="form-label">商品說明</label>
+                        <input type="text" class="form-control" id="product_description" name="product_description">
                     </div>
 
 
@@ -154,6 +185,7 @@ $rows = $pdo->query($sql)->fetchAll();
 
 
 
+
     function checkForm() {
         const fd = new FormData(document.form1);
         fetch('insert-product-api.php', {
@@ -175,6 +207,7 @@ $rows = $pdo->query($sql)->fetchAll();
                     showConfirmButton: false,
                     timer: 1500
                 })
+                setTimeout("location.href = 'list-product.php';", 1500);
                 // document.form2.single.addEventListener('change', function() {
                 //     console.log(this.files);
                 //     const fd = new FormData(document.form2);

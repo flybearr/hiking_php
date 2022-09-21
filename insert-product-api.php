@@ -67,7 +67,7 @@ if (!move_uploaded_file(
 
 $sql = "INSERT INTO `product`
 ( `product_name`, `product_category_sid`, 
-`product_price`, `product_inventory`,`picture`    ) VALUES (?, ?, ?, ?, ?)";
+`product_price`, `product_inventory`,`picture`,`product_description`,`brand_sid`) VALUES (?, ?, ?, ?, ?,?,?)";
 
 $stmt = $pdo->prepare($sql);
 
@@ -75,15 +75,15 @@ $stmt = $pdo->prepare($sql);
 
 
 
-//篩選圖片最新編號
-$select_sql =
-    "SELECT  `picture` FROM `product`  ORDER BY `sid` DESC LIMIT 1;";
-$pic_lastid = $pdo->query($select_sql)->fetch(PDO::FETCH_NUM)[0];
+// //篩選圖片最新編號
+// $select_sql =
+//     "SELECT  `picture` FROM `product`  ORDER BY `sid` DESC LIMIT 1;";
+// $pic_lastid = $pdo->query($select_sql)->fetch(PDO::FETCH_NUM)[0];
 
-//取代雙引號
-$pic_last_id = str_replace('"', '', $pic_lastid);
-//只取數字
-$pic_int_id = substr($pic_last_id, 2, 4);
+// //取代雙引號
+// $pic_last_id = str_replace('"', '', $pic_lastid);
+// //只取數字
+// $pic_int_id = substr($pic_last_id, 2, 4);
 
 
 try {
@@ -92,7 +92,9 @@ try {
         $_POST['product_category_sid'],
         $_POST['product_price'],
         $_POST['product_inventory'],
-        $filename
+        $filename,
+        $_POST['product_description'],
+        $_POST['brand_sid']
     ]);
 } catch (PDOException $ex) {
     $output['error'] = $ex->getMessage();

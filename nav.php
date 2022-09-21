@@ -30,12 +30,18 @@
                         <a class="nav-link <?= $pagename == 'category-list' ? 'active' : ''; ?>" href="./list-category.php">種類</a>
                     </li>
                     <li class="nav-item ">
+                        <a class="nav-link <?= $pagename == 'brand-list' ? 'active' : ''; ?>" href="./list-brand.php">品牌</a>
+                    </li>
+                    <li class="nav-item ">
                         <a class="nav-link <?= $pagename == 'insert-product' ? 'active' : ''; ?>" href="./insert-product.php">新增產品</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link <?= $pagename == 'insert-category' ? 'active' : ''; ?>" href="./insert-category.php">新增產品種類</a>
                     </li>
-
+                    <li class="nav-item ">
+                        <a class="nav-link <?= $pagename == 'insert-brand' ? 'active' : ''; ?>" href="./insert-brand.php">品牌</a>
+                    </li>
+                    <li class="nav-item ">
 
 
                     <li class="nav-item dropdown">

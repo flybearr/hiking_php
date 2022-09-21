@@ -2,10 +2,10 @@
 
 
 <?php
-$pagename = 'category-list'; // 設置當前所在頁面
+$pagename = 'brand-list'; // 設置當前所在頁面
 $prepage = 10; // 每頁5個
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;  //設置第幾頁面，如果沒有預設都是第一頁
-$t_sql = "SELECT count(1) FROM product_category ";
+$t_sql = "SELECT count(1) FROM brand ";
 
 
 //輸出時是陣列 用pdo fetch_num去掉欄位，[0] 只取值 ，得到有幾行資料
@@ -27,7 +27,7 @@ if ($totalrows) {
     }
     //因後方有%s 需要帶入 並用sprintf 來解決 sprintf(format,arg1,arg2,arg++)
     //litmit(起始index, 往後算多少個)
-    $sql = sprintf("SELECT * FROM product_category  LIMIT %s,%s", ($page - 1) * $prepage, $prepage);
+    $sql = sprintf("SELECT * FROM brand  LIMIT %s,%s", ($page - 1) * $prepage, $prepage);
 
     //取出所有的資料
     $rows = $pdo->query($sql)->fetchAll();
@@ -81,7 +81,7 @@ $output = [
 
                 </ul>
             </nav>
-            <h1>種類</h1>
+            <h1>品牌</h1>
             <table class="table table-dark -columns">
                 <thead>
                     <tr>
@@ -89,8 +89,7 @@ $output = [
                             <i class="fa-solid fa-trash-can"></i>
                         </th>
                         <th scope="col">編號</th>
-                        <th scope="col">種類</th>
-                        <th scope="col">性別</th>
+                        <th scope="col">品牌</th>
                         <th scope="col">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </th>
@@ -101,15 +100,14 @@ $output = [
                     <?php foreach ($rows as $r) : ?>
                         <tr>
                             <td>
-                                <a href="javascript: delete_it(<?= $r['sid'] ?>)">
+                                <a href="javascript: delete_it(<?= $r['brand_sid'] ?>)">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>
-                            <td><?= $r['sid'] ?></td>
-                            <td><?= $r['product_category'] ?></td>
-                            <td><?= $r['gender'] ?></td>
+                            <td><?= $r['brand_sid'] ?></td>
+                            <td><?= $r['brand_name'] ?></td>
                             <td>
-                                <a href="edit-category.php?sid=<?= $r['sid'] ?>">
+                                <a href="edit-category.php?sid=<?= $r['brand_sid'] ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
@@ -131,7 +129,7 @@ $output = [
 <script>
     function delete_it(sid) {
         if (confirm(`確定要刪除編號為${sid}的資料嗎?`)) {
-            location.href = `delete_category.php?sid=${sid}`;
+            location.href = `delete_brand.php?sid=${sid}`;
         }
     }
 </script>
