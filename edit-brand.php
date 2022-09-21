@@ -1,19 +1,19 @@
 <?php require __DIR__ . '/connect.php' ?>
 <?php
-$pagename = 'edit-category';
+$pagename = 'edit-brand';
 
 
 
 $sid = isset($_GET['sid']) ? intval($_GET['sid']) : 0;
 if (empty($sid)) {
-    header('Location: list.php');
+    header('Location: list-brand.php');
     exit;
 }
 
-$sql = "SELECT * FROM `product_category` WHERE sid=$sid";
+$sql = "SELECT * FROM `brand` WHERE `brand_sid`=$sid";
 $r = $pdo->query($sql)->fetch();
 if (empty($r)) {
-    header('Location: list-product.php');
+    header('Location: list-brand.php');
     exit;
 }
 
@@ -48,9 +48,10 @@ if (empty($r)) {
         <div class="col-6">
             <div class="wrap">
                 <form name="form1" onsubmit="checkForm();return false;">
+                    <input type="hidden" name="brand_sid" value="<?= $r['brand_sid'] ?>">
                     <div class="mb-3">
                         <label for="brand_name" class="form-label">品牌</label>
-                        <input type="text" class="form-control" id="brand_name" name="brand_name">
+                        <input type="text" class="form-control" id="brand_name" name="brand_name" value="<?= $r['brand_name'] ?>">
                     </div>
 
 
@@ -129,7 +130,7 @@ if (empty($r)) {
 
     function checkForm() {
         const fd = new FormData(document.form1);
-        fetch('edit-category-api.php', {
+        fetch('edit-brand-api.php', {
             method: 'POST',
             body: fd,
         }).then(r => r.json()).then(obj => {
@@ -149,7 +150,7 @@ if (empty($r)) {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                setTimeout("location.href = 'list-category.php';", 1500);
+                setTimeout("location.href = 'list-brand.php';", 1500);
 
                 // document.form2.single.addEventListener('change', function() {
                 //     console.log(this.files);

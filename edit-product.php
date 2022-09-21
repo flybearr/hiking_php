@@ -10,7 +10,7 @@ if (empty($sid)) {
     exit;
 }
 
-$sql = "SELECT * FROM product WHERE sid=$sid";
+$sql = "SELECT * FROM product WHERE product_sid=$sid";
 $r = $pdo->query($sql)->fetch();
 if (empty($r)) {
     header('Location: list-product.php');
@@ -18,7 +18,7 @@ if (empty($r)) {
 }
 
 //取得當初的種類名稱
-$sql = "SELECT `sid`,`product_category` 
+$sql = "SELECT `product_category_sid`,`product_category` 
             FROM product_category";
 $rows = $pdo->query($sql)->fetchAll();
 
@@ -69,7 +69,7 @@ $rows2 = $pdo->query($sql2)->fetchAll();
                 <form name="form1" onsubmit="checkForm();return false;">
 
 
-                    <input type="hidden" name="sid" value="<?= $r['sid'] ?>">
+                    <input type="hidden" name="product_sid" value="<?= $r['product_sid'] ?>">
 
 
                     <input type="file" name="single" accept="image/png,image/jpeg" id="btn">
@@ -85,7 +85,7 @@ $rows2 = $pdo->query($sql2)->fetchAll();
                         <br>
                         <select name="product_category_sid" id="product_category_sid">
                             <?php foreach ($rows as $x) : ?>
-                                <option value="<?= $x['sid'] ?>" <?= $x['sid'] == $r['product_category_sid'] ? 'selected' : '' ?>>
+                                <option value="<?= $x['product_category_sid'] ?>" <?= $x['product_category_sid'] == $r['product_category_sid'] ? 'selected' : '' ?>>
                                     <?= $x['product_category'] ?>
                                 </option>
                             <?php endforeach; ?>

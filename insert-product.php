@@ -5,7 +5,7 @@ $pagename = 'insert-product';
 ?>
 
 <?php
-$sql = "SELECT `sid`,`product_category` FROM  `product_category`";
+$sql = "SELECT `product_category_sid`,`product_category` FROM  `product_category`";
 $rows = $pdo->query($sql)->fetchAll();
 
 
@@ -60,7 +60,7 @@ $rows2 = $pdo->query($sql2)->fetchAll();
 
                             </option>
                             <?php foreach ($rows as $r) : ?>
-                                <option value="<?= $r['sid'] ?>">
+                                <option value="<?= $r['product_category_sid'] ?>">
                                     <?= $r['product_category'] ?>
                                 </option>
                             <?php endforeach; ?>

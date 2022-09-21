@@ -13,7 +13,7 @@ $output = [
 ];
 
 
-if (empty($_POST['product_category'])) {
+if (empty($_POST['brand_name'])) {
     $output['error'] = '參數不足';
     $output['code'] = 400;
     echo json_encode($output, JSON_UNESCAPED_UNICODE);
@@ -22,10 +22,9 @@ if (empty($_POST['product_category'])) {
 
 
 
-$sql = "UPDATE `product_category` SET 
-    `product_category`=?,
-    `gender`=?
-    where sid=?";
+$sql = "UPDATE `brand` SET 
+    `brand_name`=?
+    where `brand_sid`=?";
 
 $stmt = $pdo->prepare($sql);
 
@@ -33,9 +32,8 @@ $stmt = $pdo->prepare($sql);
 
 try {
     $stmt->execute([
-        $_POST['product_category'],
-        $_POST['gender'],
-        $_POST['sid']
+        $_POST['brand_name'],
+        $_POST['brand_sid']
     ]);
 } catch (PDOException $ex) {
     $output['error'] = $ex->getMessage();

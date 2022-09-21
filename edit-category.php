@@ -10,7 +10,7 @@ if (empty($sid)) {
     exit;
 }
 
-$sql = "SELECT * FROM `product_category` WHERE sid=$sid";
+$sql = "SELECT * FROM `product_category` WHERE product_category_sid=$sid";
 $r = $pdo->query($sql)->fetch();
 if (empty($r)) {
     header('Location: list-product.php');
@@ -49,7 +49,7 @@ if (empty($r)) {
             <div class="wrap">
                 <form name="form1" onsubmit="checkForm();return false;">
 
-                    <input type="hidden" name="sid" value="<?= $r['sid'] ?>">
+                    <input type="hidden" name="product_category_sid" value="<?= $r['product_category_sid'] ?>">
 
                     <div class="mb-3">
                         <label for="product_category" class="form-label">種類</label>

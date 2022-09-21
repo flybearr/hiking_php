@@ -43,18 +43,7 @@ $pagename = 'insert-brand';
 </div>
 <?php
 
-//篩選圖片最新編號
-$select_sql =
-    "SELECT  `picture` FROM `product`  ORDER BY `sid` DESC LIMIT 1;";
-$pic_lastid = $pdo->query($select_sql)->fetch(PDO::FETCH_NUM)[0];
 
-//取代雙引號
-$pic_last_id = str_replace('"', '', $pic_lastid);
-//只取數字
-$pic_int_id = substr($pic_last_id, 2, 4);
-
-
-// echo 'pg' . ($pic_int_id + 1);
 ?>
 
 
@@ -82,7 +71,7 @@ $pic_int_id = substr($pic_last_id, 2, 4);
                     showConfirmButton: false,
                     timer: 1500
                 })
-                setTimeout("location.href = 'list-category.php';", 1500);
+                setTimeout("location.href = 'list-brand.php';", 1500);
 
 
 

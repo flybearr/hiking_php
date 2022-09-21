@@ -25,7 +25,7 @@ if (empty($_POST['product_category'])) {
 $sql = "UPDATE `product_category` SET 
     `product_category`=?,
     `gender`=?
-    where sid=?";
+    where product_category_sid=?";
 
 $stmt = $pdo->prepare($sql);
 
@@ -35,7 +35,7 @@ try {
     $stmt->execute([
         $_POST['product_category'],
         $_POST['gender'],
-        $_POST['sid']
+        $_POST['product_category_sid']
     ]);
 } catch (PDOException $ex) {
     $output['error'] = $ex->getMessage();

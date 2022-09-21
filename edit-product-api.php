@@ -93,7 +93,7 @@ if (!empty($_FILES['single']['name'])) {
     `product_inventory`=?,
     `product_description`=?,
     `brand_sid`=?
-    where sid=?";
+    where product_sid=?";
 
     $stmt = $pdo->prepare($sql);
 
@@ -107,7 +107,7 @@ if (!empty($_FILES['single']['name'])) {
             $_POST['product_inventory'],
             $_POST['product_description'],
             $_POST['brand_sid'],
-            $_POST['sid']
+            $_POST['product_sid']
         ]);
     } catch (PDOException $ex) {
         $output['error'] = $ex->getMessage();

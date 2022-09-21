@@ -32,7 +32,7 @@ if ($totalrows) {
     }
     //因後方有%s 需要帶入 並用sprintf 來解決 sprintf(format,arg1,arg2,arg++)
     //litmit(起始index, 往後算多少個)
-    $sql = sprintf("SELECT * FROM product ORDER BY `sid` DESC LIMIT %s,%s", ($page - 1) * $prepage, $prepage);
+    $sql = sprintf("SELECT * FROM product ORDER BY `product_sid` DESC LIMIT %s,%s", ($page - 1) * $prepage, $prepage);
 
     //取出所有的資料
     $rows = $pdo->query($sql)->fetchAll();
@@ -121,16 +121,16 @@ $output = [
                     <?php foreach ($rows as $r) : ?>
                         <tr>
                             <td>
-                                <a href="javascript: delete_it(<?= $r['sid'] ?>)">
+                                <a href="javascript: delete_it(<?= $r['product_sid'] ?>)">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>
 
-                            <td><?= $r['sid'] ?></td>
+                            <td><?= $r['product_sid'] ?></td>
                             <td><?= $r['product_name'] ?></td>
 
                             <?php foreach ($rows2 as $x) : ?>
-                                <?php if ($x['sid'] == $r['product_category_sid']) : ?>
+                                <?php if ($x['product_category_sid'] == $r['product_category_sid']) : ?>
                                     <td><?= $x['product_category'] ?></td>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -148,7 +148,7 @@ $output = [
                             <td><img src="./picture/<?= $r['picture'] ?>" alt="" style="width: 150px;"></td>
 
                             <td>
-                                <a href="edit-product.php?sid=<?= $r['sid'] ?>">
+                                <a href="edit-product.php?sid=<?= $r['product_sid'] ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>

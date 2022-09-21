@@ -3,7 +3,7 @@
 
 <?php
 $pagename = 'category-list'; // 設置當前所在頁面
-$prepage = 10; // 每頁5個
+$prepage = 30; // 每頁5個
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;  //設置第幾頁面，如果沒有預設都是第一頁
 $t_sql = "SELECT count(1) FROM product_category ";
 
@@ -101,15 +101,15 @@ $output = [
                     <?php foreach ($rows as $r) : ?>
                         <tr>
                             <td>
-                                <a href="javascript: delete_it(<?= $r['sid'] ?>)">
+                                <a href="javascript: delete_it(<?= $r['product_category_sid'] ?>)">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>
-                            <td><?= $r['sid'] ?></td>
+                            <td><?= $r['product_category_sid'] ?></td>
                             <td><?= $r['product_category'] ?></td>
                             <td><?= $r['gender'] ?></td>
                             <td>
-                                <a href="edit-category.php?sid=<?= $r['sid'] ?>">
+                                <a href="edit-category.php?sid=<?= $r['product_category_sid'] ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>

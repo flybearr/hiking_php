@@ -4,7 +4,7 @@
 require __DIR__ . '/connect.php';
 $sid = isset($_GET['sid']) ? intval($_GET['sid']) : 0;
 
-$sql = "DELETE  FROM `product_category` WHERE sid={$sid}";
+$sql = "DELETE  FROM `product_category` WHERE product_category_sid={$sid}";
 
 
 $pdo->query($sql);
